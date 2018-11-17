@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 public class DateCalc {
   //test comment bla bla bla
+  //test 2 does it work?
   public static Boolean LeapYear(int currentYear) {
     /* Class that determines if an inputyear is a leapyear or not, returns a Boolean */
     if(currentYear % 100 == 0&& currentYear % 400 != 0){
