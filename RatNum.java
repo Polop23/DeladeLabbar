@@ -3,7 +3,24 @@ import javax.swing.*;
 import java.util.*;
 
 public class RatNum {
-  /* n Divider, m on top*/
+int p;
+int q;
+
+RatNum(){
+  this.p = 0;
+  this.q = 1;
+}
+
+RatNum(int a){
+  this.p = a;
+  this.q = 1;
+}
+RatNum(int a, int b){
+  if()
+  this.p = a;
+  this.q = b;
+}
+  /* */
   public static int gcd(int m, int n){
     int r = 0;
     m=Math.abs(m);
