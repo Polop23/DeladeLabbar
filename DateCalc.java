@@ -152,6 +152,7 @@ public class DateCalc {
           if (intYear < 1754) {
             JOptionPane.showMessageDialog(frame,
             "Year is to early");
+            continue
           }
           /* Calculates total amounts of days from 1754 01 01 until inputed date*/
           else {
