@@ -5,15 +5,29 @@ import java.util.*;
 public class RatNum {
   private int a;
   private int b;
+  private String s;
+  private int DEFAULT_NUMERATOR = 0;
+  private int DEFAULT_DENOMITOR = 1;
+
+  public RatNum(String s){
+    this.s = s;
+    try{
+      RatNum r = parse(this.s);
+    }
+    catch(Exception e){
+      throw new NumberFormatException("Invalid format of input string #0");
+
+    }
+  }
 
   public RatNum(){
-    this.a = 0;
-    this.b = 1;
+    this.a = DEFAULT_NUMERATOR;
+    this.b = DEFAULT_DENOMITOR;
   }
 
   public RatNum(int a){
     this.a = a;
-    this.b = 1;
+    this.b = DEFAULT_DENOMITOR;
 
   }
   public RatNum(int a, int b){
@@ -24,7 +38,7 @@ public class RatNum {
       this.b = -1 * b;
     }
     if (this.b == 0){
-      throw new NumberFormatException("Denominator = 0");
+      throw new NumberFormatException("Denominator cannot be set to 0");
     }
     if(this.a!=0){
       int intGCD = gcd( this.a, this.b);
@@ -56,25 +70,25 @@ public class RatNum {
       throw new IllegalArgumentException("Zero values not allowed");
     }
 
-  while (true){
-    rr = m % n;
-    if(zero(rr)==true){
-      return n;
+    while (true){
+      rr = m % n;
+      if(zero(rr)==true){
+        return n;
+      }
+      else {
+        m = n;
+        n = rr;
+      }
+    }
+  }
+  private static boolean zero(int number){
+    if(number == 0){
+      return true;
     }
     else {
-      m = n;
-      n = rr;
+      return false;
     }
   }
-}
-  private static boolean zero(int number){
-  if(number == 0){
-    return true;
-  }
-  else {
-    return false;
-  }
-}
   public String toString(){
     this.a = a;
     this.b = b;
@@ -89,34 +103,95 @@ public class RatNum {
     return doubleratNum;
   }
 
-public static int parse(String s){
-  this.s = s;
-  int length = str.length();
-  for(int i = 0; i < length; i++){
+  public static RatNum parse(String s){
+
+    if(s.indexOf('/')<0){
+      s+="/1";
+    }
+    char[] input = s.toCharArray();
+    int minPos = -1;
+    int divPos = -1;
+    int minCount = 0;
+    int divCount = 0;
+    int a;
+    int b;
+
+    int length = s.length();
+
+    for(int i = 0; i<length; i++){
+      if(input[i] == '-'){
+        minCount++;
+        if(minCount > 1){
+          throw new NumberFormatException("Invalid format of input string #1");
+        }
+        minPos = i;
+      }
+      if(input[i] == '/'){
+        divCount++;
+        if(divCount > 1){
+          throw new NumberFormatException("Invalid format of input string #2");
+        }
+        divPos = i;
+      }
+    }
+    if(minPos !=0 && minPos != divPos + 1 && minPos != -1 || divPos == 0 || divPos == length -1){
+      throw new NumberFormatException("invalid format of input string #3");
+    }
+
+    String sa = s.substring(0,divPos);
+    String sb = s.substring(divPos + 1,length);
+
+    try{
+      a = Integer.parseInt(sa);
+      b = Integer.parseInt(sa);
+    }
+    catch(Exception e){
+      throw new NumberFormatException("Invalid format of iputstring #4");
+    }
+    return new RatNum(a,b);
+  }
+
+  public boolean equals(Object r){
+    if(this == r){
+      return true;
+    }
+    if(r == null || this.getClass() != r.getClass()) {
+      return false;
+    }
+
+    RatNum ratNum = (RatNum) r;
+    return(ratNum.getNumerator() == this.a && ratNum.getDenominator() == this.b);
 
   }
-}
 
-    /*
-    public static void main(String[] args) {
-    int n;
-    int m;
-    int greatestCommonDivider;
+  public int hashCode(){
 
-    Scanner scan= new Scanner(System.in);
-      System.out.println("Put in numerator");
-      m = scan.nextInt();
-      System.out.println("Put in denominator");
-      n = scan.nextInt();
-
-      RatNum ratNum = new RatNum(m, n);
+    return
+  }
 
 
-    greatestCommonDivider = gcd(m, n);
-    System.out.println("Greatest common divider is " + greatestCommonDivider);
-    System.out.println("Numerator is: " + ratNum.getNumerator());
-    System.out.println("Denominator is: " + ratNum.getDenominator());
-    //System.out.println("Double is" + ratNum.toDouble());
-  } */
+
+
+  /*
+  public static void main(String[] args) {
+  int n;
+  int m;
+  int greatestCommonDivider;
+
+  Scanner scan= new Scanner(System.in);
+  System.out.println("Put in numerator");
+  m = scan.nextInt();
+  System.out.println("Put in denominator");
+  n = scan.nextInt();
+
+  RatNum ratNum = new RatNum(m, n);
+
+
+  greatestCommonDivider = gcd(m, n);
+  System.out.println("Greatest common divider is " + greatestCommonDivider);
+  System.out.println("Numerator is: " + ratNum.getNumerator());
+  System.out.println("Denominator is: " + ratNum.getDenominator());
+  //System.out.println("Double is" + ratNum.toDouble());
+} */
 
 }
